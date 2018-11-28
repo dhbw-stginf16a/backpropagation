@@ -1,0 +1,7 @@
+Zimmerzahl;Stockwerk;Heizung;Hausmeister;Kindergarten;Schule;S-Bahn;Garage;Miete;Nebenkosten;Alter;Aufzug;Lage;Entfernung;Kaution;Kueche;Bad;Balkon;Terrasse;Kehrwoche;Moebliert;Quadratmeter;;Student
+Ein Zimmer;1.Stock;Gas-Etage;ja;nah;erreichbar;erreichbar;nein;251-300;unter 50;11-15 Jahre;ja;Spielstrasse;21-30 km;keine;Kueche (alt);Dusche + Wanne;nein;nein;nein;nein;20-30;1;ja
+Ein Zimmer;EG;Erdwaerme;nein;erreichbar;erreichbar;mit Bus;nein;251-300;unter 50;76-100 Jahre;nein;Wohngebiet;11-20 km;keine;Kueche (alt);Badewanne;nein;nein;nein;nein;20-30;1;ja
+Ein Zimmer;EG;Gas-Etage;nein;nah;erreichbar;nah;nein;251-300;unter 50;16-20 Jahre;nein;Hauptstrasse;< 3 km;keine;Kueche (alt);Dusche;nein;nein;nein;nein;20-30;1;ja
+5 Zimmer;1.Stock;Gas-Zentral;nein;nah;erreichbar;nah;ja;801-850;251-300;4-7 Jahre;ja;Hauptstrasse;> 30 km;ueber 3000;Kueche (alt);Dusche + Wanne;nein;nein;nein;nein;ueber 120;1;nein
+Ein Zimmer;3.Stock;Oel;nein;fern;nah;nah;nein;301-350;50-100;4-7 Jahre;ja;Hauptstrasse;5-10 km;keine;Kueche (alt);Dusche + Wanne;ja;nein;nein;nein;31-40;1;nein
+5 Zimmer;8.Stock;Gas-Zentral;nein;fern;nah;nah;nein;701-750;251-300;51-75 Jahre;ja;Nebenstrasse;Zentrum;keine;Kueche (alt);Badewanne;ja;nein;nein;nein;111-120;1;nein
