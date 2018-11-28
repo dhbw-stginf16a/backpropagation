@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "backpropagation.h"
+
 int main(int argc, char* argv[])
 {
   FILE *fptr;
@@ -159,7 +163,7 @@ int main(int argc, char* argv[])
   
   if ((fptr = fopen("test.csv","w")) == NULL)
   {
-    printf("Fehler: Datei test.csv konnte nicht ge�ffnet werden.\n");
+    printf("Fehler: Datei test.csv konnte nicht geöffnet werden.\n");
   }
   else
   {
@@ -172,9 +176,9 @@ int main(int argc, char* argv[])
  
     for (i=0;i<numberOfTestcases;i++)
     {
-      testIn0 = ...
-      testIn1 = ...
-      testOut = ...
+      //testIn0 = ...
+      //testIn1 = ...
+      //testOut = ...
 
       printf("[%5.4f \t%5.4f] \t-> ",testIn0,testIn1);
 

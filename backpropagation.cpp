@@ -16,7 +16,7 @@
 
 #define RANDOMIZER
 
-#include "BackPropagation.h"
+#include "backpropagation.h"
 
 
 #ifdef RANDOMIZER
