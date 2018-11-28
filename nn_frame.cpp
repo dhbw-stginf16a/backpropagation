@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 
   // configure net
 
-  feedForwardNetwork *NN = new feedForwardNetwork(2,25,1);
+  feedForwardNetwork NN(2,25,1);
 
   int correctClassifications = 0;
   int lastCorrect = 0;
@@ -38,10 +38,10 @@ int main(int argc, char* argv[])
   inputDim = 2;
   hiddenDim = 25;
   outputDim = 1;
-  NN->configure(inputDim,hiddenDim,outputDim);
-  NN->init();
-  NN->setEpsilon(0.001f);
-  NN->setLearningRate(0.3f);
+  NN.configure(inputDim,hiddenDim,outputDim);
+  NN.init();
+  NN.setEpsilon(0.001f);
+  NN.setLearningRate(0.3f);
   
   /* provide learning data */
 
@@ -79,28 +79,28 @@ int main(int argc, char* argv[])
 
       for (j=0; j<inputDim;j++)
       {
-        NN->setInput(j,in[i][j]);
+        NN.setInput(j,in[i][j]);
       }
 
       learned = false;
 
       while (!learned)
       {
-        NN->apply();
+        NN.apply();
 
         for (j=0;j<outputDim;j++)
         {
-          o[j] = NN->getOutput(j);
+          o[j] = NN.getOutput(j);
         }
 
         for (j=0;j<outputDim;j++)
          t[j] = teach[i][j];
 
-        error = NN->energy(t,o,outputDim);
+        error = NN.energy(t,o,outputDim);
                
-        if (error > NN->getEpsilon())
+        if (error > NN.getEpsilon())
         {     
-          NN->backpropagate(t);                   
+          NN.backpropagate(t);                   
         }
         else
           learned = true;
@@ -119,21 +119,21 @@ int main(int argc, char* argv[])
     {
       for (j=0; j<inputDim;j++)
       {
-        NN->setInput(j,in[i][j]);
+        NN.setInput(j,in[i][j]);
       }
 
-      NN->apply();
+      NN.apply();
 
         for (j=0;j<outputDim;j++)
         {
-          o[j] = NN->getOutput(j);
+          o[j] = NN.getOutput(j);
           t[j] = teach[i][j];
         }
 
-      error = NN->energy(t,o,outputDim);
+      error = NN.energy(t,o,outputDim);
       total_error += error;
 
-      if (error < NN->getEpsilon())
+      if (error < NN.getEpsilon())
       {
         correctClassifications++;
       }
@@ -168,7 +168,7 @@ int main(int argc, char* argv[])
   else
   {
   
-    fprintf(fptr,"Epsilon %7.6f, Lernrate %7.6f,Iterationen %d \n",NN->getEpsilon(),NN->getLearningRate(),iterations/number);
+    fprintf(fptr,"Epsilon %7.6f, Lernrate %7.6f,Iterationen %d \n",NN.getEpsilon(),NN.getLearningRate(),iterations/number);
     fprintf(fptr,"Istwert,Sollwert");
     printf(" x(t-1)\t x(t)\t\tIstwert\t\tSollwert\n");
     
@@ -182,17 +182,17 @@ int main(int argc, char* argv[])
 
       printf("[%5.4f \t%5.4f] \t-> ",testIn0,testIn1);
 
-      NN->setInput(0,testIn0);
-      NN->setInput(1,testIn1);
+      NN.setInput(0,testIn0);
+      NN.setInput(1,testIn1);
 
-      NN->apply();
+      NN.apply();
 
       // compare result to testresult
     
-      fprintf(fptr,"%5.4f;",NN->getOutput(0));
+      fprintf(fptr,"%5.4f;",NN.getOutput(0));
       fprintf(fptr,"%5.4f \n",testOut);
 
-      printf("%5.4f \t",NN->getOutput(0));
+      printf("%5.4f \t",NN.getOutput(0));
       printf("(%5.4f)\n",testOut);
     }
     fprintf(fptr,"\n");
