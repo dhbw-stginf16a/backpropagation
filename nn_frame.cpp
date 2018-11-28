@@ -12,8 +12,6 @@
 
 int main(int argc, char* argv[])
 {
-  FILE *fptr;
-
   double in[5][2];
   double teach[5][4];
 
@@ -50,7 +48,7 @@ int main(int argc, char* argv[])
   NN.setEpsilon(0.0001f);
   NN.setLearningRate(0.3f);
 
-  printf("Generate training dataset:\n");
+  fprintf(stderr, "Generate training dataset:\n");
 
     in[0][0] = (float)6/15.0f;
     in[0][1] = (float)9/15.0f;
@@ -91,13 +89,13 @@ int main(int argc, char* argv[])
 
   for(i=0;i<number;i++)
   {
-    printf("[%2d] %2.0f %2.0f -> (%1.0f %1.0f %1.0f %1.0f)\n",i,in[i][0]*15,in[i][1]*15,teach[i][0],teach[i][1],teach[i][2],teach[i][3]);
+    fprintf(stderr, "[%2d] %2.0f %2.0f -> (%1.0f %1.0f %1.0f %1.0f)\n",i,in[i][0]*15,in[i][1]*15,teach[i][0],teach[i][1],teach[i][2],teach[i][3]);
   }
 
-  printf("Press enter to continue");
+  fprintf(stderr, "Press enter to continue");
   getchar();
 
-  printf("\nStarting:\n");
+  fprintf(stderr, "\nStarting:\n");
 
   while (correctClassifications < number)
   {
@@ -134,7 +132,7 @@ int main(int argc, char* argv[])
         else
           learned = true;
       }
-      printf("backpropagations = %d\n",bps);
+      fprintf(stderr, "Backpropagations = %d\n",bps);
 
     }
 
@@ -173,7 +171,7 @@ int main(int argc, char* argv[])
     last_error = total_error;
     if (lastCorrect != correctClassifications)
     {
-     printf("[%4d]>> Korrekte: %2d Fehler : %5.7f\n",iterations/number,correctClassifications, total_error);
+     fprintf(stderr, "[%4d]>> Korrekte: %2d Fehler : %5.7f\n",iterations/number,correctClassifications, total_error);
      lastCorrect = correctClassifications;
     }
 
@@ -218,9 +216,7 @@ int main(int argc, char* argv[])
       printf("%5.4f;",NN.getOutput(2));
       printf("%5.4f\n",NN.getOutput(3));
     }
-    fprintf(fptr,"\n");
-
-    fclose(fptr);
+    printf("\n");
   }
 
   return 0;
