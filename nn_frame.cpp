@@ -29,13 +29,14 @@ int main(int argc, char* argv[])
   bool  learned=false;
   char  buffer[50];
   int number = 5;
-  int numberOfTestcases = 5;
+  int numberOfTestcases = 15;
   int iterations = 0;
   double old = 0.0f;
   int bps = 0;
 
   int    inputDim,hiddenDim,outputDim;
-  double testIn0, testIn1, testOut;
+  double testIn[15][2];
+  double testOut[15][4];
 
   // The network is configured with 2 input neurons, 5 hidden
   // neurons and 4 output neurons (one for each class).
@@ -177,44 +178,142 @@ int main(int argc, char* argv[])
 
   }
 
-  printf("Iterationen: %d\n", iterations/number);
+  fprintf(stderr, "Iterationen: %d\n", iterations/number);
 
-  // save results in a file
+  printf("Epsilon %7.6f, Lernrate %7.6f,Iterationen %d \n",NN.getEpsilon(),NN.getLearningRate(),iterations/number);
+  printf("Istwert,Sollwert\n");
 
-  if ((fptr = fopen("test.csv","w")) == NULL)
+  // test with training cases (should be all fine ...)
+  testIn[0][0] = (float) 6/15.0f;
+  testIn[0][1] = (float) 9/15.0f;
+  testOut[0][0] = 0;
+  testOut[0][1] = 1;
+  testOut[0][2] = 0;
+  testOut[0][3] = 0;
+
+  testIn[1][0] = (float) 12/15.0f;
+  testIn[1][1] = (float) 11/15.0f;
+  testOut[1][0] = 1;
+  testOut[1][1] = 0;
+  testOut[1][2] = 0;
+  testOut[1][3] = 0;
+
+  testIn[2][0] = (float) 12/15.0f;
+  testIn[2][1] = (float) 4/15.0f;
+  testOut[2][0] = 0;
+  testOut[2][1] = 1;
+  testOut[2][2] = 0;
+  testOut[2][3] = 0;
+
+  testIn[3][0] = (float) 15/15.0f;
+  testIn[3][1] = (float) 10/15.0f;
+  testOut[3][0] = 1;
+  testOut[3][1] = 0;
+  testOut[3][2] = 0;
+  testOut[3][3] = 0;
+
+  testIn[4][0] = (float) 7/15.0f;
+  testIn[4][1] = (float) 4/15.0f;
+  testOut[4][0] = 0;
+  testOut[4][1] = 0;
+  testOut[4][2] = 1;
+  testOut[4][3] = 0;
+
+  testIn[5][0] = (float) 7/15.0f;
+  testIn[5][1] = (float) 9/15.0f;
+  testOut[5][0] = 0;
+  testOut[5][1] = 1;
+  testOut[5][2] = 0;
+  testOut[5][3] = 0;
+
+  testIn[6][0] = (float) 3/15.0f;
+  testIn[6][1] = (float) 1/15.0f;
+  testOut[6][0] = 0;
+  testOut[6][1] = 0;
+  testOut[6][2] = 0;
+  testOut[6][3] = 1;
+
+  testIn[7][0] = (float) 12/15.0f;
+  testIn[7][1] = (float) 2/15.0f;
+  testOut[7][0] = 0;
+  testOut[7][1] = 0;
+  testOut[7][2] = 1;
+  testOut[7][3] = 0;
+
+  testIn[8][0] = (float) 15/15.0f;
+  testIn[8][1] = (float) 15/15.0f;
+  testOut[8][0] = 1;
+  testOut[8][1] = 0;
+  testOut[8][2] = 0;
+  testOut[8][3] = 0;
+
+  testIn[9][0] = (float) 7/15.0f;
+  testIn[9][1] = (float) 6/15.0f;
+  testOut[9][0] = 0;
+  testOut[9][1] = 0;
+  testOut[9][2] = 1;
+  testOut[9][3] = 0;
+
+  testIn[10][0] = (float) 15/15.0f;
+  testIn[10][1] = (float) 6/15.0f;
+  testOut[10][0] = 1;
+  testOut[10][1] = 0;
+  testOut[10][2] = 0;
+  testOut[10][3] = 0;
+
+  testIn[11][0] = (float) 1/15.0f;
+  testIn[11][1] = (float) 10/15.0f;
+  testOut[11][0] = 0;
+  testOut[11][1] = 0;
+  testOut[11][2] = 1;
+  testOut[11][3] = 0;
+
+  testIn[12][0] = (float) 10/15.0f;
+  testIn[12][1] = (float) 7/15.0f;
+  testOut[12][0] = 0;
+  testOut[12][1] = 1;
+  testOut[12][2] = 0;
+  testOut[12][3] = 0;
+
+  testIn[13][0] = (float) 3/15.0f;
+  testIn[13][1] = (float) 6/15.0f;
+  testOut[13][0] = 0;
+  testOut[13][1] = 0;
+  testOut[13][2] = 0;
+  testOut[13][3] = 1;
+
+  testIn[14][0] = (float) 0/15.0f;
+  testIn[14][1] = (float) 4/15.0f;
+  testOut[14][0] = 0;
+  testOut[14][1] = 0;
+  testOut[14][2] = 0;
+  testOut[14][3] = 1;
+
+  fflush(stdout);
+  double testEpsilon = 0.1;
+  for (i=0; i < numberOfTestcases; i++)
   {
-    printf("Fehler: Datei test.csv konnte nicht geöffnet werden.\n");
-  }
-  else
-  {
+    fprintf(stderr, "[%2.0f \t%2.0f] \t-> ", testIn[i][0] * 15.0, testIn[i][1] * 15.0);
+    fflush(stderr);
 
-    fprintf(fptr,"Epsilon %7.6f, Lernrate %7.6f,Iterationen %d \n",NN.getEpsilon(),NN.getLearningRate(),iterations/number);
-    fprintf(fptr,"Istwert,Sollwert");
+    NN.setInput(0, testIn[i][0]);
+    NN.setInput(1, testIn[i][1]);
 
-    // test with training cases (should be all fine ...)
+    NN.apply();
 
-    for (i=0;i<numberOfTestcases;i++)
-    {
+    fflush(stdout);
 
-      testIn0 = in[i][0];
-      testIn1 = in[i][1];
+    for (int k = 0; k < 4; k++) {
+      if (testOut[i][k])
+        printf("\033[1m");
 
-      printf("[%2.0f \t%2.0f] \t-> ",testIn0*15,testIn1*15);
+      if (abs(NN.getOutput(k) - testOut[i][k]) < testEpsilon)
+        printf("\033[32m");
+      else
+        printf("\033[31m");
 
-      NN.setInput(0,testIn0);
-      NN.setInput(1,testIn1);
-
-      NN.apply();
-
-      fprintf(fptr,"%5.4f;",NN.getOutput(0));
-      fprintf(fptr,"%5.4f;",NN.getOutput(1));
-      fprintf(fptr,"%5.4f;",NN.getOutput(2));
-      fprintf(fptr,"%5.4f\n",NN.getOutput(3));
-
-      printf("%5.4f;",NN.getOutput(0));
-      printf("%5.4f;",NN.getOutput(1));
-      printf("%5.4f;",NN.getOutput(2));
-      printf("%5.4f\n",NN.getOutput(3));
+      printf("%5.4f;",NN.getOutput(k));
+      printf("\033[0m");
     }
     printf("\n");
   }
