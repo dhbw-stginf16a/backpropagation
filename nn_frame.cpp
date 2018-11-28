@@ -111,8 +111,8 @@ int main(int argc, char* argv[])
       }
 
       learned = false;
-	  bps = 0;
-	  while (!learned)
+      bps = 0;
+      while (!learned)
       {
         NN.apply();
 
@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
         if (error > NN.getEpsilon())
         {
           NN.backpropagate(t);
-		  bps++;
+          bps++;
         }
         else
           learned = true;
@@ -195,11 +195,11 @@ int main(int argc, char* argv[])
 
     // test with training cases (should be all fine ...)
 
-	for (i=0;i<numberOfTestcases;i++)
+    for (i=0;i<numberOfTestcases;i++)
     {
 
-	  testIn0 = in[i][0];
-	  testIn1 = in[i][1];
+      testIn0 = in[i][0];
+      testIn1 = in[i][1];
 
       printf("[%2.0f \t%2.0f] \t-> ",testIn0*15,testIn1*15);
 
@@ -213,7 +213,7 @@ int main(int argc, char* argv[])
       fprintf(fptr,"%5.4f;",NN.getOutput(2));
       fprintf(fptr,"%5.4f\n",NN.getOutput(3));
 
-	  printf("%5.4f;",NN.getOutput(0));
+      printf("%5.4f;",NN.getOutput(0));
       printf("%5.4f;",NN.getOutput(1));
       printf("%5.4f;",NN.getOutput(2));
       printf("%5.4f\n",NN.getOutput(3));
