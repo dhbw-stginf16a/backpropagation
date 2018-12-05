@@ -10,16 +10,22 @@
 
 #pragma argsused
 
+#define INPUT_NEURONS 2
+#define HIDDEN_NEURONS 5
+#define OUTPUT_NEURONS 4
+
+#define TRAINING_EXAMPLES 5
+#define TEST_CASES 15
+
 int main(int argc, char* argv[])
 {
-  double in[5][2];
-  double teach[5][4];
+  double in[TRAINING_EXAMPLES][INPUT_NEURONS];
+  double teach[TRAINING_EXAMPLES][OUTPUT_NEURONS];
 
-  feedForwardNetwork NN(2,5,4);
+  feedForwardNetwork NN(INPUT_NEURONS, HIDDEN_NEURONS, OUTPUT_NEURONS);
 
   int correctClassifications = 0;
   int lastCorrect = 0;
-  int i,j;
 
   static float last_error = 1000.0f;
 
@@ -28,23 +34,17 @@ int main(int argc, char* argv[])
   double error,total_error=0.0f;
   bool  learned=false;
   char  buffer[50];
-  int number = 5;
-  int numberOfTestcases = 15;
   int iterations = 0;
   double old = 0.0f;
   int bps = 0;
 
-  int    inputDim,hiddenDim,outputDim;
-  double testIn[15][2];
-  double testOut[15][4];
+  double testIn[TEST_CASES][INPUT_NEURONS];
+  double testOut[TEST_CASES][OUTPUT_NEURONS];
 
   // The network is configured with 2 input neurons, 5 hidden
   // neurons and 4 output neurons (one for each class).
 
-  inputDim  = 2;
-  hiddenDim = 5;
-  outputDim = 4;
-  NN.configure(inputDim,hiddenDim,outputDim);
+  NN.configure(INPUT_NEURONS, HIDDEN_NEURONS, OUTPUT_NEURONS);
   NN.init();
   NN.setEpsilon(0.0001f);
   NN.setLearningRate(0.3f);
@@ -88,23 +88,22 @@ int main(int argc, char* argv[])
 
   // note: input converted to [0,1] range (neuron netinput)
 
-  for(i=0;i<number;i++)
-  {
+  for (int i = 0; i < TRAINING_EXAMPLES; i++) {
     fprintf(stderr, "[%2d] %2.0f %2.0f -> (%1.0f %1.0f %1.0f %1.0f)\n",i,in[i][0]*15,in[i][1]*15,teach[i][0],teach[i][1],teach[i][2],teach[i][3]);
   }
 
-  fprintf(stderr, "Press enter to continue");
-  getchar();
+  //fprintf(stderr, "Press enter to continue");
+  //getchar();
 
   fprintf(stderr, "\nStarting:\n");
 
-  while (correctClassifications < number)
+  while (correctClassifications < TRAINING_EXAMPLES)
   {
-    for (i = 0; i< number; i++)
+    for (int i = 0; i < TRAINING_EXAMPLES; i++)
     {
       iterations++;
 
-      for (j=0; j<inputDim;j++)
+      for (int j = 0; j < INPUT_NEURONS;j++)
       {
         NN.setInput(j,in[i][j]);
       }
@@ -115,15 +114,15 @@ int main(int argc, char* argv[])
       {
         NN.apply();
 
-        for (j=0;j<outputDim;j++)
+        for (int j = 0; j < OUTPUT_NEURONS;j++)
         {
           o[j] = NN.getOutput(j);
         }
 
-        for (j=0;j<outputDim;j++)
+        for (int j=0;j < OUTPUT_NEURONS;j++)
          t[j] = teach[i][j];
 
-        error = NN.energy(t,o,outputDim);
+        error = NN.energy(t,o,OUTPUT_NEURONS);
 
         if (error > NN.getEpsilon())
         {
@@ -143,22 +142,22 @@ int main(int argc, char* argv[])
 
     total_error = 0.0f;
 
-    for (i = 0; i< number; i++)
+    for (int i = 0; i < TRAINING_EXAMPLES; i++)
     {
-      for (j=0; j<inputDim;j++)
+      for (int j = 0; j < INPUT_NEURONS;j++)
       {
         NN.setInput(j,in[i][j]);
       }
 
       NN.apply();
 
-        for (j=0;j<outputDim;j++)
+        for (int j=0;j<OUTPUT_NEURONS;j++)
         {
           o[j] = NN.getOutput(j);
           t[j] = teach[i][j];
         }
 
-      error = NN.energy(t,o,outputDim);
+      error = NN.energy(t,o,OUTPUT_NEURONS);
       total_error += error;
 
       if (error < NN.getEpsilon())
@@ -172,15 +171,17 @@ int main(int argc, char* argv[])
     last_error = total_error;
     if (lastCorrect != correctClassifications)
     {
-     fprintf(stderr, "[%4d]>> Korrekte: %2d Fehler : %5.7f\n",iterations/number,correctClassifications, total_error);
+     fprintf(stderr, "[%4d]>> Korrekte: %2d Fehler : %5.7f\n",
+             iterations / TRAINING_EXAMPLES, correctClassifications, total_error);
      lastCorrect = correctClassifications;
     }
 
   }
 
-  fprintf(stderr, "Iterationen: %d\n", iterations/number);
+  fprintf(stderr, "Iterationen: %d\n", iterations / TRAINING_EXAMPLES);
 
-  printf("Epsilon %7.6f, Lernrate %7.6f,Iterationen %d \n",NN.getEpsilon(),NN.getLearningRate(),iterations/number);
+  printf("Epsilon %7.6f, Lernrate %7.6f,Iterationen %d \n",
+         NN.getEpsilon(), NN.getLearningRate(), iterations / TRAINING_EXAMPLES);
   printf("Istwert,Sollwert\n");
 
   // test with training cases (should be all fine ...)
@@ -291,8 +292,7 @@ int main(int argc, char* argv[])
 
   fflush(stdout);
   double testEpsilon = 0.1;
-  for (i=0; i < numberOfTestcases; i++)
-  {
+  for (int i = 0; i < TEST_CASES; i++) {
     fprintf(stderr, "[%2.0f \t%2.0f] \t-> ", testIn[i][0] * 15.0, testIn[i][1] * 15.0);
     fflush(stderr);
 
